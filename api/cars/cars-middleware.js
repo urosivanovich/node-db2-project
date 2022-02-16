@@ -1,5 +1,5 @@
 const Car = require('./cars-model')
-const db = require('./cars-model')
+var vinValidator = require('vin-validator');
 
 const checkCarId = async (req, res, next) => {
   try {
@@ -41,10 +41,10 @@ const checkCarPayload =  (req, res, next) => {
 
 const checkVinNumberValid =  (req, res, next) => {
   const { vin } = req.body
-  if(vin.length < 17){
-    res.status(400).json({message: `vin ${vin} is invalid`})
-  }else{
+  if(vinValidator.validate(vin)){
     next()
+  }else{
+    res.status(400).json({message: `vin ${vin} is invalid`})
   }
 }
 
